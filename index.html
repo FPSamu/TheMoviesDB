@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,7 +33,7 @@
         h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .subtitle {
@@ -44,7 +45,7 @@
             background: white;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             margin-bottom: 30px;
         }
 
@@ -115,7 +116,7 @@
             padding: 15px 20px;
             border-radius: 10px;
             margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             display: none;
         }
 
@@ -133,14 +134,14 @@
             background: white;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
         }
 
         .movie-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
         .movie-poster {
@@ -240,6 +241,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -249,13 +251,8 @@
 
         <div class="search-box">
             <form class="search-form" id="searchForm">
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    placeholder="Escribe el título de una película..." 
-                    required
-                    autocomplete="off"
-                >
+                <input type="text" id="searchInput" placeholder="Escribe el título de una película..." required
+                    autocomplete="off">
                 <button type="submit" id="searchButton">Buscar</button>
             </form>
             <div class="options">
@@ -275,7 +272,7 @@
         </div>
 
         <div id="error" class="error" style="display: none;"></div>
-        
+
         <div id="resultsInfo" class="results-info">
             <strong>Resultados:</strong> <span id="totalResults">0</span> películas encontradas
             (Página <span id="currentPage">1</span> de <span id="totalPages">1</span>)
@@ -289,7 +286,7 @@
     </div>
 
     <script>
-        const API_BASE_URL = 'http://localhost:8000';
+        const API_BASE_URL = 'http://localhost:8080';
         const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
         const searchForm = document.getElementById('searchForm');
@@ -330,7 +327,7 @@
                 });
 
                 const response = await fetch(`${API_BASE_URL}/search/movie?${params}`);
-                
+
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.detail || 'Error al buscar películas');
@@ -371,16 +368,16 @@
             const card = document.createElement('div');
             card.className = 'movie-card';
 
-            const posterUrl = movie.poster_path 
-                ? `${TMDB_IMAGE_BASE}${movie.poster_path}` 
+            const posterUrl = movie.poster_path
+                ? `${TMDB_IMAGE_BASE}${movie.poster_path}`
                 : null;
 
             const year = movie.release_date ? movie.release_date.split('-')[0] : 'N/A';
             const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
 
             card.innerHTML = `
-                ${posterUrl 
-                    ? `<img src="${posterUrl}" alt="${movie.title}" class="movie-poster">` 
+                ${posterUrl
+                    ? `<img src="${posterUrl}" alt="${movie.title}" class="movie-poster">`
                     : `<div class="no-poster">🎬</div>`
                 }
                 <div class="movie-info">
@@ -389,10 +386,10 @@
                         <span class="movie-year">${year}</span>
                         <span class="movie-rating">⭐ ${rating}</span>
                     </div>
-                    ${movie.overview 
-                        ? `<div class="movie-overview">${movie.overview}</div>` 
-                        : '<div class="movie-overview">Sin descripción disponible.</div>'
-                    }
+                    ${movie.overview
+                    ? `<div class="movie-overview">${movie.overview}</div>`
+                    : '<div class="movie-overview">Sin descripción disponible.</div>'
+                }
                 </div>
             `;
 
@@ -402,7 +399,7 @@
         function showError(message) {
             errorDiv.textContent = `❌ Error: ${message}`;
             errorDiv.style.display = 'block';
-            
+
             // Si es un error de conexión, mostrar ayuda adicional
             if (message.includes('Failed to fetch') || message.includes('NetworkError')) {
                 errorDiv.innerHTML = `
@@ -420,7 +417,7 @@
             try {
                 const response = await fetch(`${API_BASE_URL}/health`);
                 const data = await response.json();
-                
+
                 if (!data.api_key_configured) {
                     showError('La API key de TheMovieDB no está configurada. Revisa el archivo .env');
                 }
@@ -430,4 +427,5 @@
         });
     </script>
 </body>
+
 </html>

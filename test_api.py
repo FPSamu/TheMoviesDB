@@ -6,7 +6,7 @@ Puedes ejecutar esto después de que la API esté corriendo
 import requests
 
 # URL base de nuestra API
-BASE_URL = "http://localhost:8000"
+BASE_URL = "http://localhost:8080"
 
 def test_root():
     """Probar el endpoint raíz"""
