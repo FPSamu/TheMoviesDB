@@ -84,16 +84,6 @@ async def search_movie(
     language: str = Query("es-MX", description="Idioma de los resultados"),
     include_adult: bool = Query(False, description="Incluir contenido para adultos")
 ):
-    """
-    Buscar películas por título
-    
-    - **query**: Título de la película a buscar (requerido)
-    - **page**: Número de página de resultados (por defecto: 1)
-    - **language**: Idioma de los resultados (por defecto: es-MX)
-    - **include_adult**: Incluir contenido para adultos (por defecto: False)
-    
-    Retorna una lista de películas que coinciden con la búsqueda.
-    """
     
     # Verificar que la API key esté configurada
     if not TMDB_API_KEY:
